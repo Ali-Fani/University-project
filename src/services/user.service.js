@@ -8,9 +8,8 @@ const ApiError = require("../utils/ApiError");
  * @returns {Promise<User>}
  */
 const createUser = async (userBody) => {
-    console.log(userBody)
   if (await User.isEmailTaken(userBody.email)) {
-    throw new ApiError(httpStatus.BAD_REQUEST, "Username already taken");
+    throw new ApiError(httpStatus.BAD_REQUEST, "Email already taken");
   }
   return User.create(userBody);
 };
@@ -83,6 +82,16 @@ const deleteUserById = async (userId) => {
   return user;
 };
 
+const verifyUserById = async (userId) => {
+  const user = await getUserById(userId);
+  if (!user) {
+    throw new ApiError(httpStatus.NOT_FOUND, "User not found");
+  }
+  user.isUserVerified = true;
+  await user.save();
+  return user;
+}
+
 
 module.exports = {
   createUser,
@@ -91,4 +100,5 @@ module.exports = {
   getUserByEmail,
   updateUserById,
   deleteUserById,
+  verifyUserById
 };

@@ -53,7 +53,7 @@ const userSchema = mongoose.Schema(
   }
 );
 
-// userSchema.plugin(toJSON);
+userSchema.plugin(toJSON);
 userSchema.plugin(paginate);
 
 /**

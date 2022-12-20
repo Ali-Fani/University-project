@@ -2,10 +2,22 @@ const { Strategy: JwtStrategy, ExtractJwt } = require('passport-jwt');
 const config = require('./config');
 const { tokenTypes } = require('./tokens');
 const { User } = require('../models');
+const cookieExtractor = req => {
+  let jwt = null
+  if (req && req.cookies) {
+      try{
+          jwt = req.cookies['accessToken'].split(' ')[1]
+      }catch(err){
+          console.log(err)
+      }
+      // jwt = req.cookies['accessToken'].split(' ')[1]
+  }
 
+  return jwt
+}
 const jwtOptions = {
   secretOrKey: config.jwt.secret,
-  jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
+  jwtFromRequest: ExtractJwt.fromExtractors([cookieExtractor,ExtractJwt.fromAuthHeaderAsBearerToken()]) ,
 };
 
 const jwtVerify = async (payload, done) => {

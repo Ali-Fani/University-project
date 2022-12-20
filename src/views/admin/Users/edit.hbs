@@ -1,0 +1,10 @@
+<h1>ویرایش کاربر</h1>
+{{#if this.error}}
+<div class="alert alert-danger" role="alert">
+  A simple danger alert—check it out!
+</div>
+{{/if}}
+
+<form class="row g-3 needs-validation" method="POST" action="/admin/user/{{this.user._id}}/edit">
+  {{> createForm}}
+</form>

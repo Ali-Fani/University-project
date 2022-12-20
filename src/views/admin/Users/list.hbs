@@ -1,0 +1,53 @@
+<table class='table table-bordered'>
+  <thead>
+    <tr>
+      <th scope='col'>#</th>
+      <th scope='col'>نام</th>
+      <th scope='col'>ایمیل</th>
+      <th scope='col'>نقش</th>
+      <th scope='col'>ایمیل تایید شد؟</th>
+      <th scope='col'>کاربر تایید شد؟</th>
+      <th scope='col'>عملیات</th>
+    </tr>
+  </thead>
+  <tbody>
+    {{#each users.results}}
+      <tr>
+        {{!-- {{this}} --}}
+        <th scope='row'>{{@index}}</th>
+        <td>{{this.name}}</td>
+        <td>{{this.email}}</td>
+        <td>{{this.role}}</td>
+        <td>{{#if this.isEmailVerified}}<i class='bi bi-check-square-fill' style='color: green;'></i>{{else}}<i
+              class='bi bi-x-square'
+              style='color: red;'
+            ></i>{{/if}}</td>
+        <td>{{#if this.isUserVerified}}<i class='bi bi-check-square-fill' style='color: green;'></i>{{else}}<i
+              class='bi bi-x-square'
+              style='color: red;'
+            ></i>{{/if}}</td>
+        <td>{{#unless this.isUserVerified}}
+            <a href='/admin/user/{{this._id}}/verify' type='button' class='btn btn-success btn-small'><i
+                class='bi bi-check'
+              ></i>تایید</a>
+
+          {{/unless}}
+
+          <a href='/admin/user/{{this._id}}/edit'type='button' class='btn btn-outline-secondary btn-small'><i
+              class='bi bi-pencil-square'
+            ></i>ویرایش</a>
+          <button onclick='return removeUser("{{this._id}}")' type='button' class='btn btn-danger btn-small'><i
+              class='bi bi-trash'
+            ></i>حذف</button>
+        </td>
+
+      </tr>
+    {{/each}}
+  </tbody>
+</table>
+
+<script type='text/javascript'>
+    function verifyUser(data) { var requestOptions = { method: 'POST',   redirect: 'follow'}; fetch("/admin/user/" + data + "/verify",
+  requestOptions) .then(response => response.text()) .then(result => console.log(result)) .catch(error =>
+  console.log('error', error)); console.log(data); }
+</script>

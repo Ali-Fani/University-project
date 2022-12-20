@@ -36,10 +36,11 @@ const adminRouter = AdminJSExpress.buildAuthenticatedRouter(
       maxAge: oneDay,
     },
     name: 'adminjs',
+    redirectTo: '/adminjs/login',
   }
 );
 
 module.exports = {
   admin,
-  adminRouter,
+  adminjsRouter:adminRouter,
 };
