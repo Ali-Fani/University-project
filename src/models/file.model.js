@@ -1,5 +1,5 @@
-const mongoose = require("mongoose");
-const {toJSON} = require("./plugins");
+const mongoose = require('mongoose');
+const { toJSON } = require('./plugins');
 
 const fileSchema = mongoose.Schema(
   {
@@ -34,7 +34,7 @@ const fileSchema = mongoose.Schema(
     },
     expiryCount: {
       type: Number,
-      default:-1,
+      default: -1,
     },
     downloadCount: {
       type: Number,
@@ -52,12 +52,12 @@ fileSchema.plugin(toJSON);
  * @returns Promise<File>
  */
 fileSchema.statics.findByName = async function (name) {
-    return this.findOne({name:name})
+  return this.findOne({ name });
 };
 
 /**
  * @typedef File
  */
-const File = mongoose.model("File", fileSchema);
+const File = mongoose.model('File', fileSchema);
 
 module.exports = File;

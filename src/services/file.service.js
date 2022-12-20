@@ -1,6 +1,5 @@
-const { File } = require('../models');
 const httpStatus = require('http-status');
-const { object } = require('joi');
+const { File } = require('../models');
 const ApiError = require('../utils/ApiError');
 /**
  * Save a file
@@ -16,20 +15,25 @@ const saveFile = async (file, filename, user) => {
     mimetype: file.mimetype,
     encoding: file.encoding,
     expiryCount: file.expiryCount,
-    user: user,
+    user,
   });
   return fileDoc;
 };
 
 const getFiles = async (user) => {
-  const files = await File.find({ user: user });
+  const files = await File.find({ user });
   return files;
+};
+
+const getFileMetadata = async (filename) => {
+  const file = await File.findOne({ name: filename });
+  return file;
 };
 
 const deleteFile = async (file, user) => {
   const fileDoc = await File.findOne({ name: file });
   if (!fileDoc) throw new ApiError(httpStatus.NOT_FOUND, 'File not found');
-  if (fileDoc.user != user) {
+  if (fileDoc.user !== user) {
     throw new ApiError(httpStatus.FORBIDDEN, 'You dont have access to this file');
   }
   await fileDoc.remove();
@@ -53,4 +57,5 @@ module.exports = {
   getFiles,
   deleteFile,
   updateFile,
+  getFileMetadata,
 };

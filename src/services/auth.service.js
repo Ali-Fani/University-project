@@ -16,7 +16,7 @@ const loginUserWithEmailAndPassword = async (email, password) => {
   if (!user || !(await user.isPasswordMatch(password))) {
     throw new ApiError(httpStatus.UNAUTHORIZED, 'Incorrect email or password');
   }
-  if(user.isUserVerified == false){
+  if (user.isUserVerified === false) {
     throw new ApiError(httpStatus.UNAUTHORIZED, 'User is not verified contact admin for more info');
   }
   return user;

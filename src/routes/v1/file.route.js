@@ -1,11 +1,12 @@
 const express = require('express');
-const authRoute = require('./auth.route');
+const multer = require('multer');
 const validate = require('../../middlewares/validate');
 const fileValidation = require('../../validations/file.validation');
 const fileController = require('../../controllers/file.controller');
 const auth = require('../../middlewares/auth');
+
 const router = express.Router();
-const multer = require('multer');
+
 const upload = multer({ storage: multer.memoryStorage() });
 router
   .route('/')
@@ -17,6 +18,8 @@ router
   .get(validate(fileValidation.getFile), fileController.getFile)
   .patch(auth(), validate(fileValidation.updateFile), fileController.updateFile)
   .delete(auth(), validate(fileValidation.deleteFile), fileController.deleteFile);
+
+router.route('/:filename/metadata').get(validate(fileValidation.getFileMetadata), fileController.getFileMetadata);
 // .patch(auth(),validate(fileValidation.updateFile), fileController.updateFile)
 // .delete(auth(),validate(fileValidation.deleteFile), fileController.deleteFile);
 
