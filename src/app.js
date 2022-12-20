@@ -11,10 +11,10 @@ const { jwtStrategy } = require('./config/passport');
 const routes = require('./routes/v1');
 const ApiError = require('./utils/ApiError');
 const httpStatus = require('http-status');
-// const { admin, adminjsRouter } = require('./admin/index');
+const { admin, adminjsRouter } = require('./admin/index');
 // const exphbs = require('express-handlebars');
 const path = require('path');
-// app.use(admin.options.rootPath, adminRouter);
+app.use(admin.options.rootPath, adminjsRouter);
 const adminRouter= require('./routes/web/admin.route');
 
 app.use(express.static(path.join(__dirname, 'public')))
