@@ -36,6 +36,7 @@ const updateUser = {
       password: Joi.string().custom(password),
       name: Joi.string(),
       role: Joi.string().valid('user', 'admin'),
+      isUserVerified: Joi.boolean(),
     })
     .min(1),
 };
