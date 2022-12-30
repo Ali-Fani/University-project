@@ -1,8 +1,6 @@
 const express = require('express');
 const authRoute = require('./auth.route');
-const adminRoute = require('./admin.route');
-const fileRoute = require('./file.route');
-const userRoute = require('./user.route');
+const dashboardRoute = require('./dashboard.route');
 
 const router = express.Router();
 
@@ -12,16 +10,8 @@ const defaultRoutes = [
     route: authRoute,
   },
   {
-    path: '/admin',
-    route: adminRoute,
-  },
-  {
-    path: '/user',
-    route: userRoute,
-  },
-  {
-    path: '/files',
-    route: fileRoute,
+    path: '/dashboard',
+    route: dashboardRoute,
   },
 ];
 

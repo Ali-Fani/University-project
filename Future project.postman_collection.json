@@ -1,0 +1,928 @@
+{
+	"info": {
+		"_postman_id": "0f733c35-0522-4839-be13-06f52d93e535",
+		"name": "Future project",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "File",
+			"item": [
+				{
+					"name": "Get file",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseURL}}/v1/files/:fileID?password=123456",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"v1",
+								"files",
+								":fileID"
+							],
+							"query": [
+								{
+									"key": "password",
+									"value": "123456"
+								}
+							],
+							"variable": [
+								{
+									"key": "fileID",
+									"value": "53ebda31c4e80e6838539230defe24bb"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get file meta",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseURL}}/v1/files/:fileID/metadata",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"v1",
+								"files",
+								":fileID",
+								"metadata"
+							],
+							"variable": [
+								{
+									"key": "fileID",
+									"value": "53ebda31c4e80e6838539230defe24bb"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get files",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseURL}}/v1/files",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"v1",
+								"files"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete file",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "file",
+									"type": "file",
+									"src": "/C:/Users/ALIFA/Downloads/computer-systems-Architecture.pdf"
+								},
+								{
+									"key": "password",
+									"value": "123456",
+									"type": "default"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{baseURL}}/v1/files/:fileID",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"v1",
+								"files",
+								":fileID"
+							],
+							"variable": [
+								{
+									"key": "fileID",
+									"value": "9f9f76f8d5aa69f196d323b4ce7f1d96"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update file",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"expiryCount\":10,\r\n    \"expiryDate\":\"2022-12-18T10:01:30.578Z\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseURL}}/v1/files/:fileID",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"v1",
+								"files",
+								":fileID"
+							],
+							"variable": [
+								{
+									"key": "fileID",
+									"value": "45049620732d277287b79131b1bcbc82"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Upload file",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "file",
+									"type": "file",
+									"src": "/C:/Users/ALIFA/OneDrive/تصاویر/photo_2022-11-07_09-51-43.jpg"
+								},
+								{
+									"key": "password",
+									"value": "123456",
+									"type": "default"
+								},
+								{
+									"key": "expiryCount",
+									"value": "5",
+									"type": "default"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{baseURL}}/v1/files",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"v1",
+								"files"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Auth",
+			"item": [
+				{
+					"name": "register",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 201\", function () {\r",
+									"    pm.response.to.have.status(201);\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.collectionVariables.set(\"access_token\", jsonData.tokens.access.token);\r",
+									"    pm.collectionVariables.set(\"refresh_token\", jsonData.tokens.refresh.token);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"email\":\"alifani13772@gmail.com\",\r\n    \"password\":\"passw0rd\",\r\n    \"name\":\"optional\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseURL}}/v1/auth/register",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"v1",
+								"auth",
+								"register"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Login",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"    var jsonData = pm.response.json();\r",
+									"    console.log(jsonData.tokens.access.token)\r",
+									"    pm.collectionVariables.set(\"AccessToken\", jsonData.tokens.access.token);\r",
+									"    pm.collectionVariables.set(\"RefreshToken\", jsonData.tokens.refresh.token);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"email\":\"alifani13772@gmail.com\",\r\n    \"password\":\"passw0rd\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseURL}}/v1/auth/login",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"v1",
+								"auth",
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "RefreshToken",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.collectionVariables.set(\"AccessToken\", jsonData.access.token);\r",
+									"    pm.collectionVariables.set(\"RefreshToken\", jsonData.refresh.token);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"refreshToken\":\"{{RefreshToken}}\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseURL}}/v1/auth/refresh-tokens",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"v1",
+								"auth",
+								"refresh-tokens"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Forgot password",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"email\":\"alifani1377@gmail.com\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseURL}}/v1/auth/forgot-password",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"v1",
+								"auth",
+								"forgot-password"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Logout",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 204\", function () {\r",
+									"    pm.response.to.have.status(204);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"refreshToken\":\"{{RefreshToken}}\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseURL}}/v1/auth/logout",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"v1",
+								"auth",
+								"logout"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Admin",
+			"item": [
+				{
+					"name": "User",
+					"item": [
+						{
+							"name": "Get user",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{baseURL}}/v1/admin/user/:userId",
+									"host": [
+										"{{baseURL}}"
+									],
+									"path": [
+										"v1",
+										"admin",
+										"user",
+										":userId"
+									],
+									"variable": [
+										{
+											"key": "userId",
+											"value": "639a1e5cdf26d24f3011f4b2"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get users",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{baseURL}}/v1/admin/user",
+									"host": [
+										"{{baseURL}}"
+									],
+									"path": [
+										"v1",
+										"admin",
+										"user"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Create user",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"email\":\"fake3@gmail.com\",\r\n    \"password\":\"password2\",\r\n    \"name\":\"optional2\",\r\n    \"role\":\"user\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseURL}}/v1/admin/user",
+									"host": [
+										"{{baseURL}}"
+									],
+									"path": [
+										"v1",
+										"admin",
+										"user"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Update user",
+							"request": {
+								"method": "PATCH",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"isUserVerified\":true\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseURL}}/v1/admin/user/:userId",
+									"host": [
+										"{{baseURL}}"
+									],
+									"path": [
+										"v1",
+										"admin",
+										"user",
+										":userId"
+									],
+									"variable": [
+										{
+											"key": "userId",
+											"value": "63aef9dc4ce84ca33ce5fcf2"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Delete user",
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "{{baseURL}}/v1/admin/user/:userId",
+									"host": [
+										"{{baseURL}}"
+									],
+									"path": [
+										"v1",
+										"admin",
+										"user",
+										":userId"
+									],
+									"variable": [
+										{
+											"key": "userId",
+											"value": "639b61b7686eae4c78b390f5"
+										}
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "User",
+			"item": [
+				{
+					"name": "Get user info",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseURL}}/v1/user",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"v1",
+								"user"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update user info",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"isUserVerified\":false\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseURL}}/v1/user/",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"v1",
+								"user",
+								""
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "manupulate image",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:1080/api/:imageUrl?width=&height=100&rotate=100&crop=&x=50&y=50&blur=10&oformat=webp",
+					"host": [
+						"localhost"
+					],
+					"port": "1080",
+					"path": [
+						"api",
+						":imageUrl"
+					],
+					"query": [
+						{
+							"key": "width",
+							"value": ""
+						},
+						{
+							"key": "height",
+							"value": "100"
+						},
+						{
+							"key": "rotate",
+							"value": "100"
+						},
+						{
+							"key": "crop",
+							"value": ""
+						},
+						{
+							"key": "x",
+							"value": "50"
+						},
+						{
+							"key": "y",
+							"value": "50"
+						},
+						{
+							"key": "blur",
+							"value": "10"
+						},
+						{
+							"key": "oformat",
+							"value": "webp"
+						}
+					],
+					"variable": [
+						{
+							"key": "imageUrl",
+							"value": "https://reflectoring.io/images/gyhdoca/cover-338.png"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "https://pooya.sadjad.ac.ir/gateway/SecurityImage/ShowSecurityImage.php?rand=1122314046&rand2=RHRzTEVhZWhWckZpb0cyQVVraElqcjJlejUwejlVQlpNRDMzYVpIVFp3bz0=",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"const randomNumber = _.random(1000000000,9999999999)\r",
+							"\r",
+							"console.log(randomNumber)"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://pooya.sadjad.ac.ir/gateway/SecurityImage/ShowSecurityImage.php?rand=1122314046&rand2=RHRzTEVhZWhWckZpb0cyQVVraElqcjJlejUwejlVQlpNRDMzYVpIVFp3bz0=",
+					"protocol": "https",
+					"host": [
+						"pooya",
+						"sadjad",
+						"ac",
+						"ir"
+					],
+					"path": [
+						"gateway",
+						"SecurityImage",
+						"ShowSecurityImage.php"
+					],
+					"query": [
+						{
+							"key": "rand",
+							"value": "1122314046"
+						},
+						{
+							"key": "rand2",
+							"value": "RHRzTEVhZWhWckZpb0cyQVVraElqcjJlejUwejlVQlpNRDMzYVpIVFp3bz0="
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "pooya captha",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"const randomNumber = _.random(1000000000,9999999999)\r",
+							"pm.variables.set('rand', randomNumber )\r",
+							"\r",
+							"pm.sendRequest(\"https://pooya.sadjad.ac.ir/gateway/PuyaAuthenticate.php\", function (err, response) {\r",
+							"    // console.log(response.text())\r",
+							"    const $ = cheerio.load(response.text());\r",
+							"    // console.log($(\"input#rand2\").val())\r",
+							"    pm.variables.set('rand2', $(\"input#rand2\").val() )\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"response size\", function () {\r",
+							"    pm.expect(pm.response.responseSize).to.be.above(0);\r",
+							"    console.log(pm.response.text())\r",
+							"});\r",
+							"\r",
+							"\r",
+							"// The opts for the server, also includes the data to be written to file\r",
+							"let opts = {\r",
+							"    url: 'http://localhost:3000/write',\r",
+							"    requestName: request.name,\r",
+							"    method: 'post',\r",
+							"    requestName: request.name || request.url,\r",
+							"    fileExtension: 'png',\r",
+							"    mode: 'writeFile', // Change this to any function of the fs library of node to use it.\r",
+							"    uniqueIdentifier: 'waddup',\r",
+							"    responseData: pm.response.text(),\r",
+							"    options: {\r",
+							"        encoding: 'binary'\r",
+							"    }\r",
+							"};\r",
+							"\r",
+							"setTimeout(() => {\r",
+							"    pm.sendRequest(opts, function (err, res) {\r",
+							"        // console.log(res);\r",
+							"    });\r",
+							"}, 5000);\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "authority",
+						"value": "pooya.sadjad.ac.ir"
+					},
+					{
+						"key": "accept",
+						"value": "image/avif,image/webp,image/apng,image/svg+xml,image/*,*/*;q=0.8"
+					},
+					{
+						"key": "accept-language",
+						"value": "en-US,en;q=0.9,fa;q=0.8"
+					},
+					{
+						"key": "cache-control",
+						"value": "no-cache"
+					},
+					{
+						"key": "cookie",
+						"value": "tem=default"
+					},
+					{
+						"key": "pragma",
+						"value": "no-cache"
+					},
+					{
+						"key": "referer",
+						"value": "https://pooya.sadjad.ac.ir/gateway/PuyaAuthenticate.php"
+					},
+					{
+						"key": "sec-ch-ua",
+						"value": "\"Not?A_Brand\";v=\"8\", \"Chromium\";v=\"108\", \"Google Chrome\";v=\"108\""
+					},
+					{
+						"key": "sec-ch-ua-mobile",
+						"value": "?0"
+					},
+					{
+						"key": "sec-ch-ua-platform",
+						"value": "\"Windows\""
+					},
+					{
+						"key": "sec-fetch-dest",
+						"value": "image"
+					},
+					{
+						"key": "sec-fetch-mode",
+						"value": "no-cors"
+					},
+					{
+						"key": "sec-fetch-site",
+						"value": "same-origin"
+					},
+					{
+						"key": "user-agent",
+						"value": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/108.0.0.0 Safari/537.36"
+					}
+				],
+				"url": {
+					"raw": "https://pooya.sadjad.ac.ir/gateway/SecurityImage/ShowSecurityImage.php?rand={{rand}}&rand2={{rand2}}",
+					"protocol": "https",
+					"host": [
+						"pooya",
+						"sadjad",
+						"ac",
+						"ir"
+					],
+					"path": [
+						"gateway",
+						"SecurityImage",
+						"ShowSecurityImage.php"
+					],
+					"query": [
+						{
+							"key": "rand",
+							"value": "{{rand}}"
+						},
+						{
+							"key": "rand2",
+							"value": "{{rand2}}"
+						}
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"auth": {
+		"type": "bearer",
+		"bearer": [
+			{
+				"key": "token",
+				"value": "{{AccessToken}}",
+				"type": "string"
+			}
+		]
+	},
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "baseURL",
+			"value": "",
+			"type": "default"
+		},
+		{
+			"key": "AccessToken",
+			"value": "",
+			"type": "default"
+		},
+		{
+			"key": "RefreshToken",
+			"value": "",
+			"type": "default"
+		},
+		{
+			"key": "access_token",
+			"value": ""
+		},
+		{
+			"key": "refresh_token",
+			"value": ""
+		},
+		{
+			"key": "rand",
+			"value": "",
+			"type": "default"
+		},
+		{
+			"key": "rand2",
+			"value": "",
+			"type": "default"
+		}
+	]
+}
