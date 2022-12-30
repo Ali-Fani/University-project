@@ -1,8 +1,9 @@
 const mongoose = require('mongoose');
-const { roles } = require('../config/roles');
 const validator = require('validator');
-const { toJSON, paginate } = require('./plugins');
 const argon2 = require('argon2');
+const { roles } = require('../config/roles');
+const { toJSON, paginate } = require('./plugins');
+
 const userSchema = mongoose.Schema(
   {
     name: {
@@ -74,7 +75,7 @@ userSchema.statics.isEmailTaken = async function (email, excludeUserId) {
  */
 userSchema.methods.isPasswordMatch = async function (password) {
   const user = this;
-  return await argon2.verify(user.password, password);
+  return argon2.verify(user.password, password);
 };
 
 userSchema.pre('save', async function (next) {
