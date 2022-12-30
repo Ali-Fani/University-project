@@ -36,6 +36,17 @@ const updateUser = {
       password: Joi.string().custom(password),
       name: Joi.string(),
       role: Joi.string().valid('user', 'admin'),
+      isUserVerified: Joi.boolean(),
+    })
+    .min(1),
+};
+
+const updateCorrentUser = {
+  body: Joi.object()
+    .keys({
+      email: Joi.string().email(),
+      password: Joi.string().custom(password),
+      name: Joi.string(),
     })
     .min(1),
 };
@@ -52,4 +63,5 @@ module.exports = {
   getUser,
   updateUser,
   deleteUser,
+  updateCorrentUser,
 };

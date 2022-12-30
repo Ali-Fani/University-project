@@ -1,16 +1,15 @@
 const mongoose = require('mongoose');
+const http = require('http');
 const app = require('./app');
 const config = require('./config/config');
-const http = require('http')
 const logger = require('./config/logger');
 
 let server;
-mongoose.set("strictQuery", false);
-mongoose.connect(config.mongoose.url).then((data) => {
-    // console.log(data)
-    console.log('Connected to MongoDB');
+mongoose.set('strictQuery', false);
+mongoose.connect(config.mongoose.url).then(() => {
+  logger.info('Connected to MongoDB');
   server = http.createServer(app).listen(config.port, () => {
-    console.log(`Listening to port ${config.port}`);
+    logger.info(`Listening to port ${config.port}`);
   });
 });
 
@@ -39,4 +38,3 @@ process.on('SIGTERM', () => {
     server.close();
   }
 });
-

@@ -54,6 +54,7 @@ const getFile = catchAsync(async (req, res) => {
   if (file.expiryCount > 0 && file.downloadCount >= file.expiryCount)
     throw new ApiError(httpStatus.FORBIDDEN, 'file expired');
   const filepath = path.join('uploads/', file.name);
+
   readFile(filepath, async (err, data) => {
     if (!err && data) {
       try {

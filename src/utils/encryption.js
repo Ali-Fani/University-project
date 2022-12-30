@@ -11,7 +11,7 @@ const encryptFile = async (file, password) => {
 };
 
 const decryptFile = async (file, password) => {
-  console.log(file);
+  // console.log(file);
   const salt = file.subarray(0, 64);
   const iv = file.subarray(64, 80);
   const tag = file.subarray(80, 96);
