@@ -58,4 +58,6 @@ module.exports = {
     },
     from: envVars.EMAIL_FROM,
   },
+  resetPasswordPage: envVars.RESET_PASSWORD_PAGE,
+  emailVerificationPage: envVars.EMAIL_VERIFICATION_PAGE,
 };
