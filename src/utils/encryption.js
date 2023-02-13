@@ -1,6 +1,7 @@
 const crypto = require('crypto');
 
 const encryptFile = async (file, password) => {
+  console.log(file);
   const iv = crypto.randomBytes(16);
   const salt = crypto.randomBytes(64);
   const key = crypto.pbkdf2Sync(password, salt, 3000, 32, 'sha512');

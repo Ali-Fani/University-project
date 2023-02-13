@@ -1,5 +1,5 @@
 const httpStatus = require('http-status');
-const { User } = require('../models');
+const { User, File } = require('../models');
 const ApiError = require('../utils/ApiError');
 
 /**
@@ -89,6 +89,47 @@ const verifyUserById = async (userId) => {
   return user;
 };
 
+const getUsersStatistics = async () => {
+  const data = await File.aggregate([
+    {
+      $lookup: {
+        from: 'users',
+        localField: 'user',
+        foreignField: '_id',
+        as: 'user',
+      },
+    },
+    {
+      $group: {
+        _id: '$user',
+        totalSize: {
+          $sum: '$size',
+        },
+        totalDownloadCount: {
+          $sum: '$downloadCount',
+        },
+        totalDownloadSize: {
+          $sum: {
+            $multiply: ['$downloadCount', '$size'],
+          },
+        },
+        totalCount: {
+          $sum: 1,
+        },
+      },
+    },
+    {
+      $project: {
+        '_id.password': 0,
+        '_id.role': 0,
+        '_id.isEmailVerified': 0,
+        '_id.isUserVerifeid': 0,
+      },
+    },
+  ]);
+  return data;
+};
+
 module.exports = {
   createUser,
   queryUsers,
@@ -97,4 +138,5 @@ module.exports = {
   updateUserById,
   deleteUserById,
   verifyUserById,
+  getUsersStatistics,
 };

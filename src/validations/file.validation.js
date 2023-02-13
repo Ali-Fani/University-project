@@ -1,12 +1,13 @@
+const { binary } = require('joi');
 const Joi = require('joi');
 
 const uploadFile = {
   body: Joi.object().keys({
-    password: Joi.string().required(),
-    expirayCount: Joi.number().integer(),
+    password: Joi.string(),
+    expiryCount: Joi.number().integer(),
     expiryDate: Joi.date(),
   }),
-  file: Joi.string().required(),
+  file: Joi.array().items(binary).max(1),
 };
 
 const getFile = {
