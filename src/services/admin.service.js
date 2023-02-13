@@ -130,6 +130,45 @@ const getUsersStatistics = async () => {
   return data;
 };
 
+const getFileTypesStatistics = async () => {
+  const data = await File.aggregate([
+    {
+      $group: {
+        _id: '$mimetype',
+        total: {
+          $sum: 1,
+        },
+      },
+    },
+  ]);
+  return data;
+};
+
+const getTotalFilesStatistics = async () => {
+  const data = await File.aggregate([
+    {
+      $group: {
+        _id: null,
+        totalSize: {
+          $sum: '$size',
+        },
+        totalDownloadCount: {
+          $sum: '$downloadCount',
+        },
+        totalDownloadSize: {
+          $sum: {
+            $multiply: ['$downloadCount', '$size'],
+          },
+        },
+        totalCount: {
+          $sum: 1,
+        },
+      },
+    },
+  ]);
+  return data;
+};
+
 module.exports = {
   createUser,
   queryUsers,
@@ -139,4 +178,6 @@ module.exports = {
   deleteUserById,
   verifyUserById,
   getUsersStatistics,
+  getFileTypesStatistics,
+  getTotalFilesStatistics,
 };

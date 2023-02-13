@@ -12,6 +12,8 @@ router
   .get(auth('getUsers'), validate(userValidation.getUsers), adminController.getUsers);
 
 router.route('/user/statistics').get(auth('getUsers'), adminController.getUsersStatistics);
+router.route('/user/statistics/types').get(auth('getUsers'), adminController.getFileTypesStatistics);
+router.route('/user/statistics/total').get(auth('getUsers'), adminController.getTotalFilesStatistics);
 router
   .route('/user/:userId')
   .get(auth('getUsers'), validate(userValidation.getUser), adminController.getUser)

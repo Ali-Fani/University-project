@@ -21,6 +21,16 @@ const getUsersStatistics = catchAsync(async (req, res) => {
   res.send(result);
 });
 
+const getFileTypesStatistics = catchAsync(async (req, res) => {
+  const result = await adminService.getFileTypesStatistics();
+  res.send(result);
+});
+
+const getTotalFilesStatistics = catchAsync(async (req, res) => {
+  const result = await adminService.getTotalFilesStatistics();
+  res.send(result);
+});
+
 const getUser = catchAsync(async (req, res) => {
   const user = await adminService.getUserById(req.params.userId);
   if (!user) {
@@ -46,4 +56,6 @@ module.exports = {
   updateUser,
   deleteUser,
   getUsersStatistics,
+  getFileTypesStatistics,
+  getTotalFilesStatistics,
 };
