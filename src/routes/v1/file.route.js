@@ -1,16 +1,23 @@
 const express = require('express');
 const multer = require('multer');
+// const uploader = require('../../middlewares/encryptioHandler');
 const validate = require('../../middlewares/validate');
 const fileValidation = require('../../validations/file.validation');
 const fileController = require('../../controllers/file.controller');
 const auth = require('../../middlewares/auth');
+const GridFSStorage = require('../../config/GridFSEngine');
 
 const router = express.Router();
-
-const upload = multer({ storage: multer.memoryStorage() });
+const gridFS = GridFSStorage({
+  bucketName(req, file, cb) {
+    cb(null, 'files');
+  },
+});
+const memory = multer.memoryStorage();
+const upload = multer({ storage: memory, limits: { files: 1 } });
 router
   .route('/')
-  .post(auth(), validate(fileValidation.createFile), upload.single('file'), fileController.uploadFile)
+  .post(auth(), validate(fileValidation.uploadFile), upload.single('file'), fileController.uploadFile)
   .get(auth(), fileController.getFiles);
 
 router

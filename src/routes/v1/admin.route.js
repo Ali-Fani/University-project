@@ -11,6 +11,7 @@ router
   .post(auth('manageUsers'), validate(userValidation.createUser), adminController.createUser)
   .get(auth('getUsers'), validate(userValidation.getUsers), adminController.getUsers);
 
+router.route('/user/statistics').get(auth('getUsers'), adminController.getUsersStatistics);
 router
   .route('/user/:userId')
   .get(auth('getUsers'), validate(userValidation.getUser), adminController.getUser)
