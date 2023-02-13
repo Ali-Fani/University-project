@@ -25,8 +25,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cors());
 app.options('*', cors());
-app.use(errorConverter);
-app.use(errorHandler);
+
 app.use(passport.initialize());
 passport.use('jwt', jwtStrategy);
 // handle error
@@ -40,4 +39,7 @@ app.use('/v1', routes);
 app.use((req, res, next) => {
   next(new ApiError(httpStatus.NOT_FOUND, 'Not found'));
 });
+
+app.use(errorConverter);
+app.use(errorHandler);
 module.exports = app;
