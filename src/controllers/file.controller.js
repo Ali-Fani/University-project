@@ -1,7 +1,10 @@
 const crypto = require('crypto');
-const path = require('path');
-const { writeFile, readFile } = require('fs');
+
 const httpStatus = require('http-status');
+const mongoose = require('mongoose');
+const mongodb = require('mongodb');
+const { Readable } = require('stream');
+
 const { encryptFile, decryptFile } = require('../utils/encryption');
 const { File } = require('../models');
 const { sendFile } = require('../utils/sendFile');
@@ -13,10 +16,10 @@ const uploadFile = catchAsync(async (req, res) => {
   const encryptedFile = await encryptFile(req.file.buffer, req.body.password);
   const filename = crypto.randomBytes(16).toString('hex');
   const file = await fileService.saveFile(req.file, filename, req.user);
-  writeFile(path.join('uploads/', filename), encryptedFile, (err) => {
-    if (err) throw err;
-  });
-  res.status(httpStatus.CREATED).json({ message: 'Successfully uploaded files', file });
+  const { db } = mongoose.connection;
+  const bucket = new mongodb.GridFSBucket(db, { bucketName: 'files' });
+  Readable.from(encryptedFile).pipe(bucket.openUploadStream(filename));
+  return res.status(httpStatus.CREATED).json({ message: 'Successfully uploaded files', file });
 });
 
 const getFiles = catchAsync(async (req, res) => {
@@ -48,25 +51,49 @@ const updateFile = catchAsync(async (req, res) => {
   res.status(httpStatus.OK).json({ message: 'Successfully updated file', file });
 });
 
+function stream2buffer(stream) {
+  return new Promise((resolve, reject) => {
+    const _buf = [];
+
+    stream.on('data', (chunk) => _buf.push(chunk));
+    stream.on('end', () => resolve(Buffer.concat(_buf)));
+    stream.on('error', (err) => reject(err));
+  });
+}
+
 const getFile = catchAsync(async (req, res) => {
   const file = await File.findByName(req.params.filename);
   if (!file) throw new ApiError(httpStatus.NOT_FOUND, 'file not found');
   if (file.expiryCount > 0 && file.downloadCount >= file.expiryCount)
     throw new ApiError(httpStatus.FORBIDDEN, 'file expired');
-  const filepath = path.join('uploads/', file.name);
+  // const key = crypto.pbkdf2Sync(req.query.password, file.salt, 3000, 32, 'sha512');
+  // get from gridfs
+  const { db } = mongoose.connection;
+  const bucket = new mongodb.GridFSBucket(db, { bucketName: 'files' });
+  const fileData = await stream2buffer(bucket.openDownloadStreamByName(file.name));
 
-  readFile(filepath, async (err, data) => {
-    if (!err && data) {
-      try {
-        const decryptedFile = await decryptFile(data, req.query.password);
-        file.downloadCount += 1;
-        file.save();
-        sendFile(res, decryptedFile, file);
-      } catch (error) {
-        res.status(httpStatus.FORBIDDEN).json({ message: 'Invalid password' });
-      }
-    }
-  });
+  try {
+    const decryptedFile = await decryptFile(fileData, req.query.password);
+    file.downloadCount += 1;
+    file.save();
+    sendFile(res, decryptedFile, file);
+  } catch (error) {
+    res.status(httpStatus.FORBIDDEN).json({ message: 'Invalid password' });
+  }
+
+  // get from file system and decrypt
+  // readFile(filepath, async (err, data) => {
+  //   if (!err && data) {
+  //     try {
+  //       const decryptedFile = await decryptFile(data, req.query.password);
+  //       file.downloadCount += 1;
+  //       file.save();
+  //       sendFile(res, decryptedFile, file);
+  //     } catch (error) {
+  //       res.status(httpStatus.FORBIDDEN).json({ message: 'Invalid password' });
+  //     }
+  //   }
+  // });
 });
 
 module.exports = {
