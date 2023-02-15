@@ -33,7 +33,8 @@ const getFileMetadata = async (filename) => {
 const deleteFile = async (file, user) => {
   const fileDoc = await File.findOne({ name: file });
   if (!fileDoc) throw new ApiError(httpStatus.NOT_FOUND, 'File not found');
-  if (fileDoc.user !== user) {
+  console.log(fileDoc, user._id);
+  if (!fileDoc.user._id.equals(user._id)) {
     throw new ApiError(httpStatus.FORBIDDEN, 'You dont have access to this file');
   }
   await fileDoc.remove();

@@ -40,9 +40,6 @@ const fileSchema = mongoose.Schema(
       type: Number,
       default: 0,
     },
-    salt: {
-      type: String,
-    },
   },
   { timestamps: true }
 );
